@@ -1,5 +1,5 @@
 package cis498;
-
+ 
 @SuppressWarnings("rawtypes")
 public class Section implements Comparable {
  //course section attributes
@@ -18,6 +18,7 @@ public class Section implements Comparable {
  //final exam attributes
  Professor examProctor;
  Room examRoom;
+ String flag = "";
 
     public Section(int callNumber, Professor instructor, Room classroom, String department, int courseNumber, 
                     String offeredDays, int startTime, int endTime, int enrolled, boolean computerFinal) {
@@ -135,6 +136,14 @@ public class Section implements Comparable {
 
     public void setExamRoom(Room examRoom) {
         this.examRoom = examRoom;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag += " // " + flag;
     }
 
     @Override
