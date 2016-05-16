@@ -59,7 +59,7 @@ public class Professor {
     }
     
     public void scheduleRoom(Room classroom, int day, int timeslot){
-        if(classroom!=null && day>=0 && day<5 && timeslot>=0 && timeslot<5){
+        if(day>=0 && day<5 && timeslot>=0 && timeslot<5){
             timeSlots[day][timeslot] = classroom;
         }
     }

@@ -179,7 +179,7 @@ public class Room implements Comparable {
     }
     
     public void scheduleExam(Section courseSection, int day, int timeslot){
-        if(courseSection!=null && day>=0 && day<5 && timeslot>=0 && timeslot<5){
+        if(day>=0 && day<5 && timeslot>=0 && timeslot<5){
             timeSlots[day][timeslot] = courseSection;
         }
     }
@@ -210,6 +210,15 @@ public class Room implements Comparable {
         return compareCapacity-this.capacity;
 	}
     
+    public String spaces(int n){
+        String s = "";
+        int i=0;
+        for(i=0;i<(25-n);i++){
+            s+=" ";
+        }
+        return s;
+    }
+    
     public String printSchedule() {
         String out;
         boolean isEmpty = true;
@@ -227,8 +236,23 @@ public class Room implements Comparable {
         }else{
             out = buildingCode + roomNumber + " - Capacity: " + capacity + " - " + (computerized ? "(computerized) ":"") + "Scheduled call numbers:\n";
             for(int i=0;i<timeSlots.length;i++){
+                out = out + days[i].substring(0,4) + "\t";
                 for(int j=0;j<timeSlots[i].length;j++){
-                    out = out + (j>0 ? "\t" : "") + (timeSlots[i][j]==null ? "____" : timeSlots[i][j].getCallNumber());
+                    out = out + (timeSlots[i][j]==null ? "[___]" : timeSlots[i][j].getCallNumber()) + 
+                            spaces((timeSlots[i][j]==null ? "[___]" : String.valueOf(timeSlots[i][j].getCallNumber())).length());
+                }
+                out = out + "\n\t";
+                for(int j=0;j<timeSlots[i].length;j++){
+                    if(timeSlots[i][j]!=null){
+                        if(timeSlots[i][j].getExamProctor()==null){
+                            out=out+"NULL                     ";
+                        }else{
+                        out = out + timeSlots[i][j].getExamProctor().getFullName() + 
+                              spaces(timeSlots[i][j].getExamProctor().getFullName().length());
+                        }
+                    }else{
+                        out = out + " ___ " + "                    ";
+                    }
                 }
                 out = out + "\n";
             }
