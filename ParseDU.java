@@ -522,221 +522,220 @@ public class ParseDU {
         }
         
   
-//        
-//        
-//// get data values to INSERT into database tables        
-//        
-//       // count how many courses have been scheduled
-//        int countSchedSections = 0; 
-//        for(Section currentSection : courseList){
-//        	if(currentSection.getExamRoom()!=null){
-//        		countSchedSections++;
-//        	}
-//        }
-//  		
-//        // create arrays to store values for each table column (array size based on # sections scheduled)
-//        String[] call_Number = new String[countSchedSections];
-//        String[] room_Number = new String[countSchedSections];
-//        String[] weekend = new String[countSchedSections];
-//        String[] exam_Start = new String[countSchedSections];
-//        String[] exam_End = new String[countSchedSections];
-//        String[] building = new String[countSchedSections];
-//        String[] capacity = new String[countSchedSections];
-//        String[] cpu = new String[countSchedSections];
-//        String[] mx_Day = new String[countSchedSections];
-//        String[] mx_Start = new String[countSchedSections];
-//        String[] mx_End = new String[countSchedSections];
-//    
-//        // create Exam ID numbers for each exam
-//		String[] exam_ID = new String[countSchedSections];
-//		// create an Exam ID column of null values so auto-increment function works when
-//		// passed to MySql database
-//		for(int id = 0; id < countSchedSections; id++){
-//			exam_ID[id] = null;
-//		} // end - for 
-//		
-//		
-//        int arrayCount = 0;
-//      // for exam_room table INSERT statement  
-//      for(Section currentSection : courseList){
-//   	  
-//    	      	  
-//    	// create arraylist containing these values in this order
-//    	// these will be inserted into exam_room table
-//    	
-//    	  if(currentSection.getExamRoom()!=null){
-//    		 
-////    		System.out.println("Room number: "+currentSection.getExamRoom().getRoomNumber());
-//    		  room_Number[arrayCount] = String.valueOf(currentSection.getExamRoom().getRoomNumber());
-////    		System.out.println("Room available on Saturday? "+currentSection.getExamRoom().weekendAvail());
-//    		  weekend[arrayCount] = String.valueOf(currentSection.getExamRoom().weekendAvail());
-////    		System.out.println("Room start time: "+currentSection.getStartTime());
-//    		  exam_Start[arrayCount] = String.valueOf(currentSection.getStartTime());
-////    		System.out.println("Room end time: "+currentSection.getCallNumber());
-//    		  exam_End[arrayCount] = String.valueOf(currentSection.getEndTime());
-////    		System.out.println("Building code: "+currentSection.getCallNumber());
-//    		  building[arrayCount] = String.valueOf(currentSection.getExamRoom().getBuildingCode());
-////    		System.out.println("Room capacity: "+currentSection.getExamRoom().getCapacity());
-//    		  capacity[arrayCount] = String.valueOf(currentSection.getExamRoom().getCapacity());
-////    		System.out.println("Room computerized? "+currentSection.getExamRoom().computerized);
-//    		  cpu[arrayCount] = String.valueOf(currentSection.getExamRoom().computerized);
-////    		System.out.println("Room mx day: "+currentSection.getExamRoom().getMaintenanceDay());
-//    		  mx_Day[arrayCount] = String.valueOf(currentSection.getExamRoom().getMaintenanceDay());
-////    		System.out.println("Room mx start time: "+currentSection.getExamRoom().getMaintenanceStartTime());
-//    		  mx_Start[arrayCount] = String.valueOf(currentSection.getExamRoom().getMaintenanceStartTime());
-////    		System.out.println("Room mx end time: "+currentSection.getExamRoom().getMaintenanceEndTime());
-//    		  mx_End[arrayCount] = String.valueOf(currentSection.getExamRoom().getMaintenanceEndTime());
-////   		System.out.println("Section call number: "+currentSection.getCallNumber());
-//    		  call_Number[arrayCount] = String.valueOf(currentSection.getCallNumber());
-//    		  
-//    		  arrayCount++;
-//    		
-//    	}
-//        	
-//    	
-//    }
-//        
-//
-//      // create arraylist to store course table columns/elements
-//	     ArrayList<String[]> examRoomTable = new ArrayList<String[]>();
-//	     examRoomTable.add(exam_ID); // call_Number
-//	     examRoomTable.add(building); // course_Number
-//	     examRoomTable.add(room_Number); // course_Room_number
-//	     examRoomTable.add(weekend); // course_Building_Name
-//	     examRoomTable.add(exam_Start); // course_Meeting_Days
-//	     examRoomTable.add(exam_End); 	 // course_Start_Time
-//	     examRoomTable.add(capacity); 		 // course_End_Time
-//	     examRoomTable.add(cpu); // comp_Based_Exam
-//	     examRoomTable.add(mx_Day); // department_ID
-//	     examRoomTable.add(mx_Start); // department_ID
-//	     examRoomTable.add(mx_End); // department_ID
-//	     examRoomTable.add(call_Number); // department_ID
-//		
-//		 // use DbConnect class post() method to insert into proper table
-//		 // based on table name and relevant INSERT statement
-//		 //System.out.println(courseTable.size());
-//	  // Insert exam_room table data
-//		 String insertStmt = "INSERT into EXAM_ROOM (exam_ID, building_Name, room_Number, Avail_Sat, room_Avail_Start_Time, room_Avail_End_Time, capacity, computer_Enabled, maint_Day, maint_Start_Time, maint_End_Time, course_Call_Num) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-//	     
-//		 String stmnt = insertStmt;
-//		 try {
-//			DbConnect.post(examRoomTable, stmnt);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
-//      
-//
-//	
-//		 
-//		 
-//// get data values to INSERT into EXAM_SCHEDULE table        
-// 			Connection conn2 = DbConnect.getConnection();
-// 			Statement selectSt2 = conn2.createStatement();
-// 			Statement selectSt3 = conn2.createStatement();
-// 			ResultSet rs2;
-// 			ResultSet rs3;
-//	  		
-//	        // create arrays to store values for each table column (array size based on # sections scheduled)
-//	        String[] exam_Day = new String[countSchedSections];
-//	        String[] exam_Start_Time = new String[countSchedSections];
-//	        String[] exam_End_Time = new String[countSchedSections];
-//	        String[] department_ID = new String[countSchedSections];
-//	        String[] teacher_ID = new String[countSchedSections];
-//	        String[] proctor_Sub = new String[countSchedSections];
-//			
-//			
-//	        int arrayCount2 = 0;
-//	      // for exam_room table INSERT statement  
-//	      for(Section currentSection : courseList){
-//	    	
-//	    	//  if(currentSection.getExamRoom()!=null){
-//	    	  if(currentSection.getExamRoom()!=null){
-//	    		
-//	    		// get timeslot[][] - determine slot where call_Number located, i=day, j=time
-//	    		// start_time and end_time found with getTimeslotEnd() to identify actual times
-//			    //.timeSlots[3][1].getCallNumber());
-////	    		System.out.println("Room info: "+currentSection.getExamRoom());
-//	    		
-////	    		System.out.println("Exam Day: "+currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber()));
-////	    		exam_Day[arrayCount2] = currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber());
-//
-////	    		System.out.println("Exam Day Name: "+currentSection.getExamRoom().getTimeslotDay(currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber())));
-//     		    exam_Day[arrayCount2] = currentSection.getExamRoom().getTimeslotDay(currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber()));
-//	    		
-////	    		System.out.println("Exam Time: "+currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
-////	    		System.out.println("Exam Time Start: "+currentSection.getExamRoom().getTimeslotStart(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber())));
-//     		    exam_Start_Time[arrayCount2] = currentSection.getExamRoom().getTimeslotStartSt(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
-//     		    
-////	    		System.out.println("Exam Time: "+currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
-////	    		System.out.println("Exam Time End: "+currentSection.getExamRoom().getTimeslotEnd(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber())));
-//	    		exam_End_Time[arrayCount2] = currentSection.getExamRoom().getTimeslotEndSt(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
-//
-//	    		
-////	    		System.out.println("department_ID? "+currentSection.department);
-//	    // select department_ID from Department table where department_Name = department
-//	    		// connection and resultSet objects
-//
-//	 			String query2 = "SELECT department_ID from DEPARTMENT where department_Name ='"+currentSection.department+"'";
-//			    rs2 = selectSt2.executeQuery(query2);
-//			    while (rs2.next()){
-//			    department_ID[arrayCount2] = Integer.toString(rs2.getInt("department_ID"));
-//			    }
-////			    conn2.close(); 
-//	    		
-////	    		department_ID[arrayCount2] = String.valueOf(currentSection.department);
-// 		  	     		  	    
-// 		  	    
-// 		  	    
-////	    		System.out.println("Instructor: "+currentSection.instructor.getFullName());
-//			    String query3 = "SELECT teacher_ID from TEACHER where teacher_Name ='"+currentSection.instructor.getFullName()+"'";
-//			    rs3 = selectSt3.executeQuery(query3);
-//			    while (rs3.next()){
-//			    teacher_ID[arrayCount2] = Integer.toString(rs3.getInt("teacher_ID"));
-//			    }
-//	    		//teacher_ID[arrayCount2] = String.valueOf(currentSection.instructor);
-//	    		  
-//	    		// Proctor a substitute proctor?
-//		    		String substitute;
-//		    		if(currentSection.getExamProctor() == currentSection.instructor){
-//		    			substitute = "F";
-//		    		} else {
-//		    			substitute = "T";
-//		    		}		    		
-////		    	System.out.println("Room end time: "+currentSection.getCallNumber());
-//		    	  proctor_Sub[arrayCount2] = String.valueOf(substitute); 
-////	    		System.out.println("call number: "+currentSection.getCallNumber());
-//	    		  call_Number[arrayCount2] = String.valueOf(currentSection.getCallNumber());
-//	    		  
-//	    		  arrayCount2++;	    		
-//	    	}	    	
-//	    }		 
-//		  	
-//// INSERT into the EXAM_SCHEDULE 	    	
-//	   // create arraylist to store course table columns/elements
-//		     ArrayList<String[]> examScheduleTable = new ArrayList<String[]>();
-//		     examScheduleTable.add(exam_Day); // call_Number
-//		     examScheduleTable.add(exam_Start_Time); // course_Number
-//		     examScheduleTable.add(exam_End_Time); // course_Room_number
-//		     examScheduleTable.add(department_ID); // course_Building_Name
-//		     examScheduleTable.add(teacher_ID); // course_Meeting_Days
-//		     examScheduleTable.add(proctor_Sub); 	 // course_Start_Time
-//		     examScheduleTable.add(call_Number); 		 // course_End_Time
-//			
-//			 // use DbConnect class post() method to insert into proper table
-//			 // based on table name and relevant INSERT statement
-//			 //System.out.println(courseTable.size());
-//		  // Insert exam_room table data
-//			 String insertStmt2 = "INSERT into EXAM_SCHEDULE (exam_Day, exam_Start_Time, exam_End_Time, department_ID, teacher_ID, proctor_Sub, course_Call_Number) VALUES (?,?,?,?,?,?,?)";
-//		     
-//			 String stmnt2 = insertStmt2;
-//			 try {
-//				DbConnect.post(examScheduleTable, stmnt2);
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} 
-//		 
+       
+       
+//| get data values to INSERT into database tables        
+       
+      // count how many courses have been scheduled
+       int countSchedSections = 0; 
+       for(Section currentSection : courseList){
+       	if(currentSection.getExamRoom()!=null){
+       		countSchedSections++;
+       	}
+       }
+ 		
+       // create arrays to store values for each table column (array size based on # sections scheduled)
+       String[] call_Number = new String[countSchedSections];
+       String[] room_Number = new String[countSchedSections];
+       String[] weekend = new String[countSchedSections];
+       String[] exam_Start = new String[countSchedSections];
+       String[] exam_End = new String[countSchedSections];
+       String[] building = new String[countSchedSections];
+       String[] capacity = new String[countSchedSections];
+       String[] cpu = new String[countSchedSections];
+       String[] mx_Day = new String[countSchedSections];
+       String[] mx_Start = new String[countSchedSections];
+       String[] mx_End = new String[countSchedSections];
+   
+       // create Exam ID numbers for each exam
+	String[] exam_ID = new String[countSchedSections];
+	// create an Exam ID column of null values so auto-increment function works when
+	// passed to MySql database
+	for(int id = 0; id < countSchedSections; id++){
+		exam_ID[id] = null;
+	} // end - for 
+	
+	
+       int arrayCount = 0;
+     // for exam_room table INSERT statement  
+     for(Section currentSection : courseList){
+  	  
+   	      	  
+   	// create arraylist containing these values in this order
+   	// these will be inserted into exam_room table
+   	
+   	  if(currentSection.getExamRoom()!=null){
+   		 
+//|    		System.out.println("Room number: "+currentSection.getExamRoom().getRoomNumber());
+   		  room_Number[arrayCount] = String.valueOf(currentSection.getExamRoom().getRoomNumber());
+//|    		System.out.println("Room available on Saturday? "+currentSection.getExamRoom().weekendAvail());
+   		  weekend[arrayCount] = String.valueOf(currentSection.getExamRoom().weekendAvail());
+//|    		System.out.println("Room start time: "+currentSection.getStartTime());
+   		  exam_Start[arrayCount] = String.valueOf(currentSection.getStartTime());
+//|    		System.out.println("Room end time: "+currentSection.getCallNumber());
+   		  exam_End[arrayCount] = String.valueOf(currentSection.getEndTime());
+//|    		System.out.println("Building code: "+currentSection.getCallNumber());
+   		  building[arrayCount] = String.valueOf(currentSection.getExamRoom().getBuildingCode());
+//|    		System.out.println("Room capacity: "+currentSection.getExamRoom().getCapacity());
+   		  capacity[arrayCount] = String.valueOf(currentSection.getExamRoom().getCapacity());
+//|    		System.out.println("Room computerized? "+currentSection.getExamRoom().computerized);
+   		  cpu[arrayCount] = String.valueOf(currentSection.getExamRoom().computerized);
+//|    		System.out.println("Room mx day: "+currentSection.getExamRoom().getMaintenanceDay());
+   		  mx_Day[arrayCount] = String.valueOf(currentSection.getExamRoom().getMaintenanceDay());
+//|    		System.out.println("Room mx start time: "+currentSection.getExamRoom().getMaintenanceStartTime());
+   		  mx_Start[arrayCount] = String.valueOf(currentSection.getExamRoom().getMaintenanceStartTime());
+//|    		System.out.println("Room mx end time: "+currentSection.getExamRoom().getMaintenanceEndTime());
+   		  mx_End[arrayCount] = String.valueOf(currentSection.getExamRoom().getMaintenanceEndTime());
+//|   		System.out.println("Section call number: "+currentSection.getCallNumber());
+   		  call_Number[arrayCount] = String.valueOf(currentSection.getCallNumber());
+   		  
+   		  arrayCount++;
+   		
+   	}
+       	
+   	
+   }
+       
+
+     // create arraylist to store course table columns/elements
+     ArrayList<String[]> examRoomTable = new ArrayList<String[]>();
+     examRoomTable.add(exam_ID); // call_Number
+     examRoomTable.add(building); // course_Number
+     examRoomTable.add(room_Number); // course_Room_number
+     examRoomTable.add(weekend); // course_Building_Name
+     examRoomTable.add(exam_Start); // course_Meeting_Days
+     examRoomTable.add(exam_End); 	 // course_Start_Time
+     examRoomTable.add(capacity); 		 // course_End_Time
+     examRoomTable.add(cpu); // comp_Based_Exam
+     examRoomTable.add(mx_Day); // department_ID
+     examRoomTable.add(mx_Start); // department_ID
+     examRoomTable.add(mx_End); // department_ID
+     examRoomTable.add(call_Number); // department_ID
+	
+	 // use DbConnect class post() method to insert into proper table
+	 // based on table name and relevant INSERT statement
+	 //System.out.println(courseTable.size());
+  // Insert exam_room table data
+	 String insertStmt = "INSERT into EXAM_ROOM (exam_ID, building_Name, room_Number, Avail_Sat, room_Avail_Start_Time, room_Avail_End_Time, capacity, computer_Enabled, maint_Day, maint_Start_Time, maint_End_Time, course_Call_Num) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+     
+	 String stmnt = insertStmt;
+	 try {
+		DbConnect.post(examRoomTable, stmnt);
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} 
+     
+
+
+	 
+	 
+//| get data values to INSERT into EXAM_SCHEDULE table        
+			Connection conn2 = DbConnect.getConnection();
+			Statement selectSt2 = conn2.createStatement();
+			Statement selectSt3 = conn2.createStatement();
+			ResultSet rs2;
+			ResultSet rs3;
+  		
+        // create arrays to store values for each table column (array size based on # sections scheduled)
+        String[] exam_Day = new String[countSchedSections];
+        String[] exam_Start_Time = new String[countSchedSections];
+        String[] exam_End_Time = new String[countSchedSections];
+        String[] department_ID = new String[countSchedSections];
+        String[] teacher_ID = new String[countSchedSections];
+        String[] proctor_Sub = new String[countSchedSections];
+		
+		
+        int arrayCount2 = 0;
+      // for exam_room table INSERT statement  
+      for(Section currentSection : courseList){
+    	
+    	//  if(currentSection.getExamRoom()!=null){
+    	  if(currentSection.getExamRoom()!=null){
+    		
+    		// get timeslot[][] - determine slot where call_Number located, i=day, j=time
+    		// start_time and end_time found with getTimeslotEnd() to identify actual times
+		    //.timeSlots[3][1].getCallNumber());
+//|	    		System.out.println("Room info: "+currentSection.getExamRoom());
+    		
+//|	    		System.out.println("Exam Day: "+currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber()));
+//|	    		exam_Day[arrayCount2] = currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber());
+
+//|	    		System.out.println("Exam Day Name: "+currentSection.getExamRoom().getTimeslotDay(currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber())));
+    		    exam_Day[arrayCount2] = currentSection.getExamRoom().getTimeslotDay(currentSection.getExamRoom().getScheduledDay(currentSection.getExamRoom(), currentSection.getCallNumber()));
+    		
+//|	    		System.out.println("Exam Time: "+currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
+//|	    		System.out.println("Exam Time Start: "+currentSection.getExamRoom().getTimeslotStart(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber())));
+    		    exam_Start_Time[arrayCount2] = currentSection.getExamRoom().getTimeslotStartSt(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
+    		    
+//|	    		System.out.println("Exam Time: "+currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
+//|	    		System.out.println("Exam Time End: "+currentSection.getExamRoom().getTimeslotEnd(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber())));
+    		exam_End_Time[arrayCount2] = currentSection.getExamRoom().getTimeslotEndSt(currentSection.getExamRoom().getScheduledTime(currentSection.getExamRoom(), currentSection.getCallNumber()));
+
+    		
+//|	    		System.out.println("department_ID? "+currentSection.department);
+    // select department_ID from Department table where department_Name = department
+    		// connection and resultSet objects
+
+ 			String query2 = "SELECT department_ID from DEPARTMENT where department_Name ='"+currentSection.department+"'";
+		    rs2 = selectSt2.executeQuery(query2);
+		    while (rs2.next()){
+		    department_ID[arrayCount2] = Integer.toString(rs2.getInt("department_ID"));
+		    }
+//|			    conn2.close(); 
+    		
+//|	    		department_ID[arrayCount2] = String.valueOf(currentSection.department);
+		  	     		  	    
+		  	    
+		  	    
+//|	    		System.out.println("Instructor: "+currentSection.instructor.getFullName());
+		    String query3 = "SELECT teacher_ID from TEACHER where teacher_Name ='"+currentSection.instructor.getFullName()+"'";
+		    rs3 = selectSt3.executeQuery(query3);
+		    while (rs3.next()){
+		    teacher_ID[arrayCount2] = Integer.toString(rs3.getInt("teacher_ID"));
+		    }
+    		//teacher_ID[arrayCount2] = String.valueOf(currentSection.instructor);
+    		  
+    		// Proctor a substitute proctor?
+	    		String substitute;
+	    		if(currentSection.getExamProctor() == currentSection.instructor){
+	    			substitute = "F";
+	    		} else {
+	    			substitute = "T";
+	    		}		    		
+//|		    	System.out.println("Room end time: "+currentSection.getCallNumber());
+	    	  proctor_Sub[arrayCount2] = String.valueOf(substitute); 
+//|	    		System.out.println("call number: "+currentSection.getCallNumber());
+    		  call_Number[arrayCount2] = String.valueOf(currentSection.getCallNumber());
+    		  
+    		  arrayCount2++;	    		
+    	}	    	
+    }		 
+	  	
+//| INSERT into the EXAM_SCHEDULE 	    	
+   // create arraylist to store course table columns/elements
+	     ArrayList<String[]> examScheduleTable = new ArrayList<String[]>();
+	     examScheduleTable.add(exam_Day); // call_Number
+	     examScheduleTable.add(exam_Start_Time); // course_Number
+	     examScheduleTable.add(exam_End_Time); // course_Room_number
+	     examScheduleTable.add(department_ID); // course_Building_Name
+	     examScheduleTable.add(teacher_ID); // course_Meeting_Days
+	     examScheduleTable.add(proctor_Sub); 	 // course_Start_Time
+	     examScheduleTable.add(call_Number); 		 // course_End_Time
+		
+		 // use DbConnect class post() method to insert into proper table
+		 // based on table name and relevant INSERT statement
+		 //System.out.println(courseTable.size());
+	  // Insert exam_room table data
+		 String insertStmt2 = "INSERT into EXAM_SCHEDULE (exam_Day, exam_Start_Time, exam_End_Time, department_ID, teacher_ID, proctor_Sub, course_Call_Number) VALUES (?,?,?,?,?,?,?)";
+	     
+		 String stmnt2 = insertStmt2;
+		 try {
+			DbConnect.post(examScheduleTable, stmnt2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 		 
 
 
     } // - end main
