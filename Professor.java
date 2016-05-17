@@ -42,7 +42,8 @@ public class Professor {
         if(availabilityIn.equals("ALL")){
             availability = "11111";
         }else{
-            availability = availabilityIn.substring(availabilityIn.length() - 5);
+            //availability = availabilityIn.substring(availabilityIn.length() - 5);
+            availability = availabilityIn.substring(1,5);
         }
     }
     
