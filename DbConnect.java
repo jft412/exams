@@ -18,16 +18,16 @@ public class DbConnect {
 		try{
 			String driver = "com.mysql.jdbc.Driver";
 			
-			// to connect to localhost MySql database
-			String url = "jdbc:mysql://localhost:3306/exams";
-			String username = "root";
-			String pwd = "";
+//			// to connect to localhost MySql database
+//			String url = "jdbc:mysql://localhost:3306/exams";
+//			String username = "root";
+//			String pwd = "";
 
-			// to connect to inmotion hosting account			
-//			String url = "jdbc:mysql://70.39.248.227:3306/deltau5_du_database";
-//			String username = "deltau5_team4";
-//			String pwd = "deltau!";
-			
+//			// to connect to inmotion hosting account			
+			String url = "jdbc:mysql://70.39.248.227:3306/deltau5_du_database";
+			String username = "deltau5_team4";
+			String pwd = "deltau!";
+//			
 //			String url = "jdbc:mysql://192.249.123.44:3306/kartpa5_exams";
 //			String username = "kartpa5_deltau5";
 //			String pwd = "deltau!";
@@ -71,6 +71,8 @@ public class DbConnect {
 					posted.addBatch();
 					posted.executeUpdate();
 			    } // end for() to insert each element into table
+				
+				con.close(); // close connection
 	    	  
 		} catch(Exception e){
 			System.out.println(e);
@@ -122,11 +124,29 @@ public class DbConnect {
 //		
 //			
 //			
-//		// update records in DB
-//			public void updateData(String updateStatement){
-//				
-//				String statement = updateStatement;
-//							
+		// update records in DB
+			public static void updateData(String updateStatement){
+				
+				String statement = updateStatement;
+				
+				try{
+					// use getConnection() method to create a connection
+					Connection con = getConnection();
+					// holds INSERT statement to use in element inserting for loop (below)
+					PreparedStatement posted = con.prepareStatement(statement);							
+					posted.executeUpdate();		
+					
+					con.close(); // close connection
+			    	  
+				} catch(Exception e){
+					System.out.println(e);
+				} finally {
+					System.out.println("Update Completed:");
+					
+				} // end - try/finally
+				
+				
+				
 //				try{
 //					String update = statement;
 //					st.executeUpdate(update);
@@ -135,7 +155,7 @@ public class DbConnect {
 //				}catch(Exception ex){
 //					System.out.println(ex);
 //				}
-//			}
+			}
 //		
 //			
 //		

@@ -38,10 +38,7 @@ public class ProcessToDb {
 		
 		String name = table;
 
-		// connection and resultSet objects
-		Connection conn = DbConnect.getConnection();
-		Statement selectSt = conn.createStatement();
-		ResultSet rs;
+		
 		
 		// perform data transformation processes to create columns for our database, then
 		// move columns from arraylist .txt files into arraylists for course, teacher, department
@@ -80,25 +77,31 @@ public class ProcessToDb {
 			 // remove all null values from each array 
 			 String[] call_Number = new String[courses.get(0).length-1];
 			 String[] course_Number = new String[courses.get(0).length-1];
+			 String[] teacher_Name = new String[courses.get(0).length-1];
 			 String[] course_Room_number = new String[courses.get(0).length-1];
 			 String[] course_Building_Name = new String[courses.get(0).length-1];
 			 String[] course_Meeting_Days = new String[courses.get(0).length-1];
 			 String[] course_Start_Time = new String[courses.get(0).length-1];
 			 String[] course_End_Time = new String[courses.get(0).length-1];
+			 String[] course_Enrollment = new String[courses.get(0).length-1];
 			 String[] comp_Based_Exam = new String[courses.get(0).length-1];
 			 String[] department_ID = new String[courses.get(0).length-1];
+			 String[] schedule_Flag = new String[courses.get(0).length-1];
 			 
 			 // reposition elements in each array to remove the first row of row names
 			 for(int i=1; i < courses.get(0).length; i++){
 				 call_Number[i-1]= courses.get(2)[i];
 				 course_Number[i-1]= courses.get(0)[i];
+				 teacher_Name[i-1]= courses.get(5)[i];
 				 course_Room_number[i-1]= courses.get(6)[i];
 				 course_Building_Name[i-1]= courses.get(7)[i];
 				 course_Meeting_Days[i-1]= courses.get(3)[i];
 				 course_Start_Time[i-1]= startTime[i];
 				 course_End_Time[i-1]= endTime[i];
+				 course_Enrollment[i-1]= courses.get(8)[i];
 				 comp_Based_Exam[i-1]= courses.get(10)[i];
-				 department_ID[i-1]= courses.get(1)[i];		 
+				 department_ID[i-1]= courses.get(1)[i];
+				 schedule_Flag[i-1]= Integer.toString(1);
 			 }
 			 
 			 // get departmentName and convert to department_ID by using
@@ -116,6 +119,11 @@ public class ProcessToDb {
 			 // select/add dept_ID field values and convert comp_Based_Exam from Y/N to 1/0
 			 String[] deptID = new String[department_ID.length];
 			 
+			 // connection and resultSet objects for DEPARTMENT query
+			 Connection conn = DbConnect.getConnection();
+			 Statement selectSt = conn.createStatement();
+			 ResultSet rs;
+			 
 			 // selects dept ID from department and matches it with course department Name
 			 // and converts Y/N's to 0/1's for comp_Based_Exam field
 			 for(int i=0; i < department_ID.length; i++){
@@ -125,7 +133,6 @@ public class ProcessToDb {
 					 while (rs.next()){
 						 // insert selected ID for dept Name into dept_ID
 						 deptID[i] = Integer.toString(rs.getInt("department_ID"));
-				     //System.out.println("Iteration: "+i+" -DeptNAME:"+department_ID[i]+" -DeptID: "+deptID[i]);
 					 } // end - while
 					 
 					 // convert comp_Based_Exam Y and N values to 1 and 0
@@ -144,19 +151,22 @@ public class ProcessToDb {
 		     ArrayList<String[]> courseTable = new ArrayList<String[]>();
 			 courseTable.add(call_Number); // call_Number
 			 courseTable.add(course_Number); // course_Number
+			 courseTable.add(teacher_Name); // teacher_Name
 			 courseTable.add(course_Room_number); // course_Room_number
 			 courseTable.add(course_Building_Name); // course_Building_Name
 			 courseTable.add(course_Meeting_Days); // course_Meeting_Days
 			 courseTable.add(course_Start_Time); 	 // course_Start_Time
 			 courseTable.add(course_End_Time); 		 // course_End_Time
+			 courseTable.add(course_Enrollment); 		 // course_Capacity
 			 courseTable.add(comp_Based_Exam); // comp_Based_Exam
 			 courseTable.add(deptID); // department_ID
+			 courseTable.add(schedule_Flag);
 			
 			 // use DbConnect class post() method to insert into proper table
 			 // based on table name and relevant INSERT statement
-			 //System.out.println(courseTable.size());
 			 String stmnt = stmt;
 			 DbConnect.post(courseTable, stmnt);
+			 
 	
 		}  // end course section	
 		
@@ -189,7 +199,9 @@ public class ProcessToDb {
 					departmentID[id] = null;
 					//System.out.println("Department ID size: " + departmentID.length + "\nDepartment Array size: "+department.length);
 				} // end - for 
-		
+				
+				
+				
 			// create arraylist to store course table columns/elements
 			ArrayList<String[]> departmentTable = new ArrayList<String[]>();		
 			departmentTable.add(departmentID);
@@ -298,7 +310,8 @@ public class ProcessToDb {
 						//System.out.println(id + "- Teacher ID size: " + teacherID.length + "\nTeacher Array size: "+teacherID.length + " - Teacher NAME: "+teacherName[id]);
 				} // end - for teacherID column
 	
-					
+			
+				
 			// insert into arrayList to insert into teacher table in database
 			ArrayList<String[]> teacherTable = new ArrayList<String[]>();
 			teacherTable.add(teacherID); // teacher ID
@@ -311,6 +324,79 @@ public class ProcessToDb {
 			DbConnect.post(teacherTable, stmnt3);
 				
 	 }	// end - teachers table section
+		
+
+		
+		
+		
+		
+		
+// room section
+// build Arraylist of room Id and room name (unique names)
+// room
+				
+		if(name.equalsIgnoreCase("rooms")){	
+			
+			String[] room_BuildingNull = rooms.get(1);
+			String[] room_NumberNull = rooms.get(0);
+			String[] room_CapacityNull = rooms.get(2);
+			String[] room_Mx_DaysNull = rooms.get(3);
+			String[] room_MxStart_timeNull = rooms.get(4);
+			String[] room_DurationNull = rooms.get(5);
+			String[] room_ComputerizedNull = rooms.get(6);
+			
+		
+			String[] room_Building = new String[room_BuildingNull.length-1];
+			String[] room_Number = new String[room_BuildingNull.length-1];
+			String[] room_Capacity = new String[room_BuildingNull.length-1];
+			String[] room_Mx_Days = new String[room_BuildingNull.length-1];
+			String[] room_MxStart_time = new String[room_BuildingNull.length-1];
+			String[] room_Duration = new String[room_BuildingNull.length-1];
+			String[] room_Computerized = new String[room_BuildingNull.length-1];
+			String[] room_ID = new String[room_BuildingNull.length-1];
+			String[] room_Avail_Sat = new String[room_BuildingNull.length-1];
+			
+			
+			// convert arrayName and arrayAvail arrays to get rid of null value at arrayName[0]
+			for(int i=0; i<room_BuildingNull.length-1; i++){			
+				room_Building[i]= room_BuildingNull[i+1];
+				room_Number[i]= room_NumberNull[i+1];
+				room_Capacity[i]= room_CapacityNull[i+1];
+				room_Mx_Days[i]= room_Mx_DaysNull[i+1];
+				room_MxStart_time[i]= room_MxStart_timeNull[i+1];
+				room_Duration[i]= room_DurationNull[i+1];
+				room_Computerized[i]= room_ComputerizedNull[i+1];
+				room_ID[i]= room_Building[i] + room_Number[i];
+			if(room_Building[i].equalsIgnoreCase("ACT") || room_Building[i].equalsIgnoreCase("AHA") || room_Building[i].equalsIgnoreCase("BRN") || room_Building[i].equalsIgnoreCase("EFEN") || room_Building[i].equalsIgnoreCase("FRH") || room_Building[i].equalsIgnoreCase("LHD") || room_Building[i].equalsIgnoreCase("SOKH")){			
+				room_Avail_Sat[i] = "Y";
+			} else {
+				room_Avail_Sat[i] = "N";
+			}
+				
+				//System.out.println(i+"room bldg: "+room_Building[i]+" - room number: "+room_Number[i]);	
+				//System.out.println();
+			} // end - for remove null value
+			
+			
+					
+			// create arraylist to store course table columns/elements
+			ArrayList<String[]> roomTable = new ArrayList<String[]>();		
+			roomTable.add(room_ID); // room ID
+			roomTable.add(room_Building); // room building
+			roomTable.add(room_Number); // room building
+			roomTable.add(room_Avail_Sat); // room availability on Saturday
+			roomTable.add(room_Capacity); // room capacity
+			roomTable.add(room_Mx_Days); // room building
+			roomTable.add(room_MxStart_time); // room building
+			roomTable.add(room_Duration); // room building
+			roomTable.add(room_Computerized); // room building					
+	
+			// use DbConnect class post() method to insert into proper table
+			// based on table name and relevant INSERT statement
+			String stmnt2 = stmt;
+			DbConnect.post(roomTable, stmnt2);
+		
+		} // end room section
  
   } // end - method process()
 	

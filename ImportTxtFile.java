@@ -88,10 +88,8 @@ public class ImportTxtFile {
 	            		}
 		        		
 			        	matrix[i][k] = items[k];
-			        	//System.out.println("K = "+k+" Value["+i+"]["+k+"] "+matrix[i][k]);
-			        	
-		        	} // - end for 
-		        	
+			        	//System.out.println("K = "+k+" Value["+i+"]["+k+"] "+matrix[i][k]);			        	
+		        	} // - end for 		        	
             	} // - end if
             	
             // skip to next line at \n then read next line into line String

@@ -266,5 +266,3 @@ public class Room implements Comparable {
         return "Room number=" + roomNumber +" | Building=" + buildingCode +  " | Capacity=" + capacity + " | Saturday=" + weekend;
     }    
 }
-
-
